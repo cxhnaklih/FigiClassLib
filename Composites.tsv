@@ -1,0 +1,225 @@
+﻿COMPOSITE_COUNTRY_CODE	COMPOSITE_COUNTRY_NAME
+US	United States
+AB	Saudi Arabia
+AD	Andorra
+AG	Algeria
+AI	Anguilla
+AK	Kabul Intl
+AL	Albania
+AR	Argentina
+AU	Australia
+AV	Austria
+AX	Angola
+AY	Armenia
+AZ	Azerbaijan
+B3	Blockmatch
+BA	Barbados
+BB	Belgium
+BC	BRVM Regional
+BD	Bangladesh
+BG	Botswana
+BH	Bermuda
+BI	Bahrain
+BK	Rpblika Srpska
+BM	Bahamas
+BP	Bosnia
+BT	Fed of Bos/Her
+BU	Bulgaria
+BX	Brunei
+BY	Burgundy
+BZ	Brazil
+CB	Colombia
+CH	China
+CI	Chile
+CN	Canada
+CP	Czech Republic
+CR	Costa Rica
+CU	Cook Islands
+CY	Cyprus
+CZ	Croatia
+DC	Denmark
+DE	Cameroon
+ED	Ecuador
+EK	Eastern Carrib
+EL	El Salvador
+ET	Estonia
+EY	Egypt(EGX)
+FH	Finland
+FP	France
+FS	Fiji
+GA	Greece
+GG	Georgia
+GL	Guatemala
+GN	Ghana
+GR	Germany
+GU	Guernsey
+GX	Gambia
+HB	Hungary
+HE	Chi-East
+HK	Hong Kong
+HO	Honduras
+IA	Ivory Coast
+ID	Ireland
+IE	Iran
+IJ	Indonesia
+IM	Italy
+IN	India
+IO	Isle of Man
+IQ	Iraq Stock Ex
+IR	Iceland
+IT	Israel
+JA	Jamaica
+JP	Japan
+JR	Jordan
+JY	Jersey
+K3	Blink
+KB	Kyrgyzstan
+KF	KoreaFrBMkt
+KH	Cambodia
+KK	Kuwait
+KN	Kenya
+KO	Kosovo
+KS	South Korea
+KY	Cayman Islands
+KZ	Kazakhstan
+L3	Liquidnet
+LB	Lebanon
+LE	Liechtenstein
+LH	Lithuania
+LN	United Kingdom
+LR	Latvia
+LS	Laos Pep Dm Rp
+LX	Luxembourg
+LY	Libn Arb Jmhra
+MA	Macau
+MB	Moldova
+MC	Morocco
+MD	Madeira
+ME	Montenegro
+MI	Marshall Islds
+MK	Malaysia
+MM	Mexico
+MN	Monaco
+MO	Mongolia
+MP	Mauritius
+LD	NYSE EU London
+MS	Macedonia
+MV	Malta
+MW	Malawi
+MX	Maldives
+MY	Myanmar
+MZ	Mozambique
+NA	Netherlands
+NC	Nicaragua
+ND	NDQ Deutschlnd
+NK	Nepal
+NL	Nigeria
+NM	Germ NM
+NO	Norway
+NW	Namibia
+NX	Nevis
+NZ	New Zealand
+OM	Oman
+PA	Pakistan
+PB	Papua N.Guinea
+PE	Peru
+NQ	NEURO
+PL	Portugal
+PM	Philippines
+PN	Paraguay
+PP	Panama
+PS	Palestine
+PW	Poland
+QD	Qatar
+RB	Belarus
+RO	Romania
+RU	Russia
+RW	Rwanda
+SD	Swaziland
+SG	Serbia
+SK	Slovakia
+SL	Sri Lanka
+SM	Spain
+SP	Singapore
+SS	Sweden
+SU	Sierra Leone
+SV	Slovenia
+SW	Switzerland
+SY	Damascus SecEx
+SZ	Seychelles
+
+IX	Chi-X Europe
+GK	Xetra Intl Mkt
+H1	S SSE-SEHK Con
+H2	So SZ-SEHK Con
+HM	HI-MTF
+MQ	MESDAQ
+MT	TOM MTF
+NR	NYSE ARCA Eur
+NT	Neth Antilles
+OF	OFEX London
+OS	Off Shore
+P2	Posit
+PG	PLUS Europe
+PO	ITG Posit
+PX	PEX
+PZ	ISDX
+QM	Quote MTF
+QT	Quotrix Exchg
+QX	Aquis Exchange
+SJ	South Africa
+TB	Thailand
+TC	Turks & Caico
+TD	Tajikistan
+TI	Turkey
+TL	Gibraltar
+TM	Turkmenistan
+TP	Trinidad
+TT	Taiwan
+TU	Tunisia
+TZ	Tanzania
+UG	Uganda
+UH	UAE
+UY	Uruguay
+UZ	Ukraine
+VB	Bolivia
+VC	Venezuela
+VI	Brit Virgin Is
+VN	Vietnam
+VR	Cape Verde
+VX	SIX Swiss Exch
+YS	Yemen
+ZB	Belize
+ZC	Central Afr Rp
+ZG	Gabon
+ZH	Zimbabwe
+ZL	Zambia
+ZS	Senegal
+ZU	Uzbekistan
+RM	MICEX
+S1	SIGMA X MTF
+S2	UBS MTF
+SH	SharesPost Mkt
+T0	TurkDEX
+TE	EuroTLX
+TH	Tradegate
+TQ	Turquoise Mkt
+Z1	AIAF
+Z2	TRACE
+EU	European Comp
+A0	AssetMatch MTF
+BQ	Equiduct
+C1	N SSE-SEHK Con
+C2	No SZ-SEHK Con
+LI	U.K. ISEAQ
+DU	Nasdaq Dubai
+DX	EDX London
+EB	BATS Europe
+EN	Euronext
+EO	OTC Composite
+ES	NASDAQ Europe
+EX	NEWEX
+G1	Gtrd Dum Asia
+G2	Gtrd Dum Eu1
+G3	Gtrd Dum Eu2
+G4	GXG Markets
