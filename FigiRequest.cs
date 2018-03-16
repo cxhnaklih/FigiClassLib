@@ -15,12 +15,27 @@ namespace Naklih.Com.FigiClassLib
     {
         public FigiRequest(string id, FigiIdentifierType idType)
         {
-            this.Identifier = id;
             this.IdentifierType = idType;
+
+            //change sedol 6 to sedol 7 if necessary.
+            if (idType == FigiIdentifierType.ID_SEDOL)
+            {
+                if (id.Length == 6)
+                {
+                    this.Identifier = SedolValidator.Sedol7(id);
+                }
+                else
+                {
+                    this.Identifier = id;
+                }
+            }
+
+            this.OriginalIdentifier = id;
             this.MICCode = null;    
             this.ExchangeCode = null;
             this.MarketSecDes = null;
             this.Currency = null;
+            this.RequestorsIdentifier = null;
         }
 
         [JsonProperty("idType", Required = Required.Always)]
@@ -36,18 +51,26 @@ namespace Naklih.Com.FigiClassLib
         public string Currency { get; set; }
         [JsonProperty("marketSecDes", NullValueHandling = NullValueHandling.Ignore)]
         public string MarketSecDes { get; set; }
+        [JsonIgnore]
+        public string RequestorsIdentifier { get; set; }
+        [JsonIgnore]
+        public string OriginalIdentifier { get; set; }
+
 
         public string toJSON()
         {
             JsonSerializer serializer = new JsonSerializer();
             serializer.NullValueHandling = NullValueHandling.Ignore;
             StringBuilder sb = new StringBuilder();
+            FigiRequest request = this;
+
+
             
             using (System.IO.TextWriter tw = new System.IO.StringWriter(sb))
             {
                 using (JsonWriter writer = new JsonTextWriter(tw))
                 {
-                    serializer.Serialize(writer, this);
+                    serializer.Serialize(writer, request);
                 }
             }
             return sb.ToString();

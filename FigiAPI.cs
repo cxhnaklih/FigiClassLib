@@ -134,25 +134,43 @@ namespace Naklih.Com.FigiClassLib
             return (requestJson.ToString());
         }
 
-        protected static string makeJsonRequest(string json, string figiApiUrl , string apiKey = null)
+        protected static string makeJsonRequest(string json, string figiApiUrl , string apiKey = null, int requestsLeft = 10)
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(figiApiUrl);
-            httpWebRequest.ContentType = "text/json";
-            if (apiKey != null)
+            try
             {
-                httpWebRequest.Headers.Add("X-OPENFIGI-APIKEY", apiKey);
-            }
-            httpWebRequest.Method = "POST";
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-            {
-                streamWriter.Write(json);
-            }
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var responseText = streamReader.ReadToEnd();
 
-                return responseText;
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(figiApiUrl);
+                httpWebRequest.ContentType = "text/json";
+                if (apiKey != null)
+                {
+                    httpWebRequest.Headers.Add("X-OPENFIGI-APIKEY", apiKey);
+                }
+                httpWebRequest.Method = "POST";
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var responseText = streamReader.ReadToEnd();
+
+                    return responseText;
+                }
+            }
+            catch(Exception ex)
+            {
+                if(requestsLeft >0)
+                {
+                    System.Threading.Thread.CurrentThread.Join(5000);
+                        
+                    requestsLeft -= 1;
+                    return makeJsonRequest(json, figiApiUrl, apiKey, requestsLeft);
+                }
+                else
+                {
+                    throw (ex);
+                }
             }
         }
 
@@ -174,10 +192,11 @@ namespace Naklih.Com.FigiClassLib
                 PropertyDescriptor prop = props[i];
                 table.Columns.Add(prop.Name, prop.PropertyType);
             }
-            table.Columns.Add("Request_Id", typeof(string));
-            table.Columns.Add("Request_Type", typeof(string));
+            table.Columns.Add("RequestId", typeof(string));
+            table.Columns.Add("RequestType", typeof(string));
+            table.Columns.Add("RequestorsIdentifier", typeof(string));
 
-            object[] values = new object[props.Count+2];
+            object[] values = new object[props.Count+3];
             foreach (FigiResponse item in responseList)
             {
 
@@ -186,14 +205,15 @@ namespace Naklih.Com.FigiClassLib
                     foreach (FigiResponseLine line in item.FigiResponseItems)
                     {
                         int i;
-                        for ( i = 0; i < values.Length-2; i++)
+                        for ( i = 0; i < values.Length-3; i++)
                         {
                             values[i] = props[i].GetValue(line);
                         }
                         if (item.Request != null)
                         {
-                            values[values.Length-2] = item.Request.Identifier;
-                            values[values.Length -1] = Enum.GetName(typeof(FigiIdentifierType), item.Request.IdentifierType);
+                            values[values.Length-3] = item.Request.OriginalIdentifier;
+                            values[values.Length -2] = Enum.GetName(typeof(FigiIdentifierType), item.Request.IdentifierType);
+                            values[values.Length - 1] = item.Request.RequestorsIdentifier;
                         }
 
                         table.Rows.Add(values);

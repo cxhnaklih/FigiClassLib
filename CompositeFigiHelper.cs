@@ -49,11 +49,20 @@ namespace Naklih.Com.FigiClassLib
 
         public bool IsComposite(string Exchange)
         {
+            if(Exchange is null)
+            {
+                return false;
+            }
             return (_composites.ContainsKey(Exchange));
         }
 
         public int CompositePriority(string Exchange)
         {
+            if (Exchange is null)
+            {
+                return 9999;
+            }
+
             return (_composites[Exchange]);
         }
     }
