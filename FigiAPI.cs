@@ -30,15 +30,22 @@ namespace Naklih.Com.FigiClassLib
 
             if(requestList.Count > requests)
             {
-                for(int i=0;  i<(((requestList.Count)/ requests) +1); i++)
+                List<IList<FigiRequest>> chunks = new List<IList<FigiRequest>>();
+
+                for (int i=0;  i<(((requestList.Count)/ requests) +1); i++)
                 {
                     int length = Math.Min( requests, requestList.Count- i*requests);
                     int start = i * requests;
                     IList<FigiRequest> subList = requestList.Skip(start).Take(length).ToList<FigiRequest>();
-                    IList<FigiResponse> responses = makeBatchFigiRequest(subList, figiApiUrl, apiKey);
-                    allResponses.AddRange(responses);
+                    chunks.Add(subList);
+                    
 
                 }
+                Parallel.For(0, chunks.Count-1, i=>
+                {
+                    IList<FigiResponse> responses = makeBatchFigiRequest(chunks[i], figiApiUrl, apiKey);
+                    allResponses.AddRange(responses);
+                });
             }
             else
             {
@@ -49,8 +56,11 @@ namespace Naklih.Com.FigiClassLib
             return allResponses;
         }
 
+        
+
         public static IList<FigiResponse> makeFigiRequestForSingleFigiID(IList<FigiRequest> requestList, string figiApiUrl = "https://api.openfigi.com/v1/mapping", string apiKey = null)
         {
+
             IList<FigiResponse> responses = makeFigiRequest(requestList, figiApiUrl, apiKey);
             List<FigiResponse> singleFigiIDResponses = new List<FigiResponse>();
 
@@ -80,7 +90,15 @@ namespace Naklih.Com.FigiClassLib
                     {
                         if (compositeLines > 1)
                         {
-                            r.FigiResponseItems.Add(composites.OrderBy(c => CompositeFigiHelper.Instance.CompositePriority(c.ExchangeCode)).ThenByDescending(c => c.UniqueID).First());
+                            var filteredComposites = composites;
+                            if(r.Request.ExchangeTieBreakOnly != null)
+                            {
+                                filteredComposites = composites.Where<FigiResponseLine>(x => x.ExchangeCode == r.Request.ExchangeTieBreakOnly);
+                                
+                            }
+                            
+
+                            r.FigiResponseItems.Add(filteredComposites.OrderBy(c => CompositeFigiHelper.Instance.CompositePriority(c.ExchangeCode)).ThenByDescending(c => c.UniqueID).First());
                             System.Diagnostics.Debug.WriteLine(string.Format("This Stock Has More than one Composite {0}", r.Request.Identifier));
                             r.FigiResponseItems.First().MappingConfidencePct = 1.0/ compositeLines;
                         }
@@ -98,7 +116,7 @@ namespace Naklih.Com.FigiClassLib
         }
 
 
-            protected static IList<FigiResponse> makeBatchFigiRequest(IList<FigiRequest> requestList,string figiApiUrl , string apiKey = null)
+        protected static  IList<FigiResponse> makeBatchFigiRequest(IList<FigiRequest> requestList,string figiApiUrl , string apiKey = null)
         {
             string requestJson = prepareRequestJson(requestList);
 
@@ -150,6 +168,8 @@ namespace Naklih.Com.FigiClassLib
                 {
                     streamWriter.Write(json);
                 }
+                
+
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                 using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                 {
@@ -157,8 +177,9 @@ namespace Naklih.Com.FigiClassLib
 
                     return responseText;
                 }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if(requestsLeft >0)
                 {
@@ -174,10 +195,11 @@ namespace Naklih.Com.FigiClassLib
             }
         }
 
+        
+
         protected static List<FigiResponse> UnpackJson(string response)
         {
-
-
+            
             return Newtonsoft.Json.JsonConvert.DeserializeObject<List<FigiResponse>>(response, new Newtonsoft.Json.JsonSerializerSettings { TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All }); ;
         }
 
@@ -202,6 +224,7 @@ namespace Naklih.Com.FigiClassLib
 
                 if (item.FigiResponseItems != null)
                 {
+                    
                     foreach (FigiResponseLine line in item.FigiResponseItems)
                     {
                         int i;
@@ -218,11 +241,29 @@ namespace Naklih.Com.FigiClassLib
 
                         table.Rows.Add(values);
                     }
-                    
+                    // if we didn't get any responses just return the request...
+                    if (item.FigiResponseItems.Count == 0)
+                    {
+                        if (item.Request != null)
+                        {
+                            values[values.Length - 3] = item.Request.OriginalIdentifier;
+                            values[values.Length - 2] = Enum.GetName(typeof(FigiIdentifierType), item.Request.IdentifierType);
+                            values[values.Length - 1] = item.Request.RequestorsIdentifier;
+                        }
+
+                        table.Rows.Add(values);
+                    }
+
+
                 }
+               
+                
             }
+            
             return table;
         }
+
+        
 
 
     }

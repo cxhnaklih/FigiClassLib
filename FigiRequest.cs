@@ -29,6 +29,10 @@ namespace Naklih.Com.FigiClassLib
                     this.Identifier = id;
                 }
             }
+            else
+            {
+                this.Identifier = id;
+            }
 
             this.OriginalIdentifier = id;
             this.MICCode = null;    
@@ -55,6 +59,9 @@ namespace Naklih.Com.FigiClassLib
         public string RequestorsIdentifier { get; set; }
         [JsonIgnore]
         public string OriginalIdentifier { get; set; }
+        [JsonIgnore]
+        public string ExchangeTieBreakOnly { get; set; }
+                
 
 
         public string toJSON()
